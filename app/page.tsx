@@ -142,6 +142,24 @@ const people = [
   }
 ];
 
+const qualitySignals = [
+  {
+    k: "Source-backed",
+    v: "RBI + scheme docs",
+    detail: "Answers cite curated material, not loose guesses."
+  },
+  {
+    k: "Rule-checked",
+    v: "Eligibility engine",
+    detail: "Scheme outcomes come from deterministic conditions."
+  },
+  {
+    k: "Language-first",
+    v: "Hindi · Marathi · Kannada",
+    detail: "Built around how users actually ask for help."
+  }
+];
+
 const steps = [
   {
     n: "01",
@@ -210,6 +228,11 @@ function PhoneMockup({
           <small>online</small>
         </div>
       </div>
+      <div className="trust-rail" aria-hidden="true">
+        <span>source checked</span>
+        <span>rule path visible</span>
+        <span>plain language</span>
+      </div>
       <div className="chat-wall">
         {data.bubbles.map((bubble, index) => (
           <ChatBubble key={`${active}-${index}`} bubble={bubble} />
@@ -264,6 +287,15 @@ export default function Home() {
           <a className="primary-button" href="https://wa.me/" target="_blank" rel="noreferrer">
             Try it on WhatsApp
           </a>
+          <div className="quality-strip" aria-label="Product trust signals">
+            {qualitySignals.map((signal) => (
+              <article key={signal.k}>
+                <span>{signal.k}</span>
+                <strong>{signal.v}</strong>
+                <p>{signal.detail}</p>
+              </article>
+            ))}
+          </div>
         </div>
         <div className="hero-phone">
           <PhoneMockup active="Kisan" compact />
@@ -357,18 +389,47 @@ export default function Home() {
           </p>
         </div>
         <div className="architecture" aria-label="Architecture diagram">
-          <span>User input</span>
-          <small>WhatsApp / Web</small>
-          <i />
-          <span>Intent Router</span>
-          <i />
-          <div className="engine-row">
-            <b>Rule Engine</b>
-            <b>RAG Pipeline</b>
-            <b>Scam Analyzer</b>
+          <div className="arch-node arch-input">
+            <small>input</small>
+            <strong>WhatsApp / Web</strong>
+            <span>text, voice notes, forwards</span>
           </div>
-          <i />
-          <span>Response</span>
+          <div className="arch-connector" />
+          <div className="arch-node arch-router">
+            <small>intent router</small>
+            <strong>Classify the request</strong>
+            <span>question, eligibility, scam check</span>
+          </div>
+          <div className="arch-connector split" />
+          <div className="arch-lanes">
+            <div className="arch-node">
+              <small>deterministic</small>
+              <strong>Rule Engine</strong>
+              <span>scheme eligibility</span>
+            </div>
+            <div className="arch-node">
+              <small>source-backed</small>
+              <strong>RAG Pipeline</strong>
+              <span>RBI, tax, scheme docs</span>
+            </div>
+            <div className="arch-node">
+              <small>risk signals</small>
+              <strong>Scam Analyzer</strong>
+              <span>urgency, returns, KYC links</span>
+            </div>
+          </div>
+          <div className="arch-connector merge" />
+          <div className="arch-data">
+            <span>BHASHINI</span>
+            <span>KakushIN LLM API</span>
+            <span>Curated Knowledge Base</span>
+          </div>
+          <div className="arch-connector" />
+          <div className="arch-node arch-response">
+            <small>response</small>
+            <strong>Plain-language answer</strong>
+            <span>steps, flags, cards, citations</span>
+          </div>
         </div>
         <p className="tech-note">
           LLM: KakushIN LLM API (Phi-3.5-Mini-Instruct, 3.8B GGUF, CPU). Multilingual:
